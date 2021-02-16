@@ -29,7 +29,10 @@ const setupBCoins = ({ publicKey, secretKey }, fetch = nodeFetch) => {
 
   const client = new ApolloClient({
     link: createHttpLink({
-      uri:  "https://cors-anywhere.herokuapp.com/"+"https://backend.buycoins.tech/api/graphql",
+      uri:  "https://backend.buycoins.tech/api/graphql",
+      fetchOptions: {
+        mode: 'no-cors',
+      },
       fetch:  fetch,
       headers: {
         authorization: authValue,
