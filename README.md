@@ -176,6 +176,7 @@ bcoins.createAddress({ cryptocurrency })
 
 However if you are using React (or any other js framework) and Apollo CLient and which to let Apollo client handle all the data queries and mutuations, you can follow the setup pattern as shown in the React with @apollo/client above. This is made possible cause the library exports each individual graphql queries and mutuations as a function which can be called with arguments as shown in the React with @apollo/client section. 
 
+```js
 import {
   CREATE_VIRTUAL_DEPOSIT_ACCOUNT, // - mutation -
   CURRENT_BUYCOINS_PRICE,         // - query -
@@ -193,6 +194,7 @@ import {
   GET_BALANCES,                   // - query -
   CREATE_ADDRESS,                 // - mutation -
 }  from 'bcoins';
+```
 
 for the queries call them with the needed arguments and pass result to the useQuery hooks from Apollo client as shown in the React - Apollo section, while for the mutuations just call them without any arguments and pass the result into the useMutation hook, then the resulting function (the first argument returned from the useMutation hook) will now be usedto pass in a variables object. (also refer to the React - Apollo section to see an example.
 
