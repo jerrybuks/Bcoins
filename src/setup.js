@@ -20,7 +20,7 @@ const {
   CREATE_ADDRESS,
 } = require("./queries");
 
-const setupBCoins = ({ publicKey, secretKey }) => {
+const setupBCoins = ({ publicKey, secretKey, fetch }) => {
   if (!(publicKey && secretKey))
     return "please provide your public and secret key";
   const authValue =
@@ -29,7 +29,7 @@ const setupBCoins = ({ publicKey, secretKey }) => {
   const client = new ApolloClient({
     link: createHttpLink({
       uri:  "https://backend.buycoins.tech/api/graphql",
-      // fetch:  fetch,
+      fetch:  fetch,
       headers: {
         authorization: authValue,
       },
