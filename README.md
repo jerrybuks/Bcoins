@@ -40,7 +40,7 @@ bcoins
 
 ## In React with @apollo/client
 
-##In your root component
+###In your root component
 ```js
 import React from 'react';
 import { render } from 'react-dom';
@@ -118,6 +118,85 @@ function AddTodo() {
 Also Integates seamlesslly with Vue and Apollo Client
 
 # Documentation
+
+You can check out the official BuyCoins Documentation on their [website](https://developers.buycoins.africa/) for more detailed explanations of how each query/mutuation works. This library implements all the possible queries and mutuations in the BuyCoins docs except for webhook section.
+
+In order to support both usage in vanilla js and easy integration with Apollo client and other Js frameworks, the library export a setupBCoins function, which is used for the initial authorization setup and in addition exports all the methods which calls the different graphql queries and mutuations api calls
+
+```js
+const { setupBCoins } = require("bcoins");
+
+//second parameter is supposed to the browser fetch, by default it uses node-fetch
+const bcoins = setupBCoins({
+  publicKey: "pass_public_key",
+  secretKey: "pass_secret_key",
+}, fetch);
+
+//bcoins returns several other methods
+bcoins
+  .getDynamicPriceExpiry({ status: "open" })
+  .then((res) => console.log(res));
+```
+
+the client object returned from creating an Apolloclient instance (whcich contains our uri and authorization header is also returned from the setup client function and can be accessed thus:
+
+```js
+bcoins.client
+```
+
+```js
+//pass in objects with the field specied in each call as keys and with the appropriate values (please refer to the official docs)
+
+//crate virtual deposit account
+bcoins.createVirtualDepositAccount({ accountName });
+
+//P2P trading
+bcoins.getBuyCoinsPrices({ side, mode, cryptocurrency })
+bcoins.getDynamicPriceExpiry({ status })
+bcoins.placeLimitingOrder({ orderSide, coinAmount, cryptocurrency, staticPrice, priceType, dynamicExchangeRate  })
+bcoins.placeMarketOrder({ orderSide, coinAmount, cryptocurrency })
+bcoins.getOrders({ status })
+bcoins.getMarketBook()
+
+//placing orders
+bcoins.getSingleCryptoPrice({ cryptocurrency })
+bcoins.getPrices()
+bcoins.buyCrypto({ priceId, coin_amount, cryptocurrency })
+bcoins.sellCrypto({ priceId, coin_amount, cryptocurrency })
+
+//sending crypto
+bcoins.getEstimatedNetworkFee({ cryptocurrency, amount })
+bcoins.sendCrypto({ amount, cryptocurrency, address })
+bcoins.getBalances()
+
+
+//receiving crypto
+bcoins.createAddress({ cryptocurrency })
+```
+
+However if you are using React (or any other js framework) and Apollo CLient and which to let Apollo client handle all the data queries and mutuations, you can follow the setup pattern as shown in the React with @apollo/client above. This is made possible cause the library exports each individual graphql queries and mutuations as a function which can be called with arguments as shown in the React with @apollo/client section. 
+
+import {
+  CREATE_VIRTUAL_DEPOSIT_ACCOUNT, // - mutation -
+  CURRENT_BUYCOINS_PRICE,         // - query -
+  DYNAMIC_PRICE_EXPIRY,           // - query -
+  PLACING_LIMIT_ORDER,            // - mutation -
+  PLACING_MARKET_ORDER,           // - mutation -
+  GET_ORDERS,                     // - query -
+  GET_MARKET_BOOK,                // - query -
+  GET_SINGLE_CRYPTO_PRICE,        // - query -
+  GET_PRICES,                     // - query -
+  BUY_CRYPTO,                     // - mutation -
+  SELL_CRYPTO,                    // - mutation -
+  GET_ESTIMATED_NETWORK_FEE,      // - query -
+  SEND_CRYPTO,                    // - mutation -
+  GET_BALANCES,                   // - query -
+  CREATE_ADDRESS,                 // - mutation -
+}  from 'bcoins';
+
+for the queries call them with the needed arguments and pass result to the useQuery hooks from Apollo client as shown in the React - Apollo section, while for the mutuations just call them without any arguments and pass the result into the useMutation hook, then the resulting function (the first argument returned from the useMutation hook) will now be usedto pass in a variables object. (also refer to the React - Apollo section to see an example.
+
+
 
 
 
