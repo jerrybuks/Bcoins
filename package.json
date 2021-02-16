@@ -1,6 +1,6 @@
 {
   "name": "bcoins",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "client side library for buy-coins graphql api",
   "main": "src/index.js",
   "scripts": {
