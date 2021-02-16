@@ -1,4 +1,3 @@
-const { createHttpLink } = require('apollo-link-http')
 const { InMemoryCache } = require('apollo-cache-inmemory') 
 const {ApolloClient} = require('apollo-client')
 
@@ -20,21 +19,18 @@ const {
   CREATE_ADDRESS,
 } = require("./queries");
 
-const setupBCoins = ({ publicKey, secretKey, fetch }) => {
+const setupBCoins = ({ publicKey, secretKey }) => {
   if (!(publicKey && secretKey))
     return "please provide your public and secret key";
   const authValue =
     "Basic " + Buffer.from(publicKey + ":" + secretKey).toString("base64");
 
   const client = new ApolloClient({
-    link: createHttpLink({
       uri:  "https://backend.buycoins.tech/api/graphql",
-      fetch:  fetch,
       headers: {
         authorization: authValue,
       },
-    }),
-    cache: new InMemoryCache(),
+      cache: new InMemoryCache(),
   });
   
   const bcoins = {
