@@ -24,14 +24,14 @@ communicate with BuyCoins Graphql api easily. Integrates easily with vanilla js 
 ```js
 const { setupBCoins } = require("bcoins");
 
-//second parameter is supposed to the browser fetch, by default it uses node-fetch
+//second parameter is supposed to be the browser fetch, by default it uses node-fetch
 const bcoins = setupBCoins({
   publicKey: "pass_public_key",
   secretKey: "pass_secret_key",
 }, fetch);
 
 //call an endpoint
-//bcoins returns several other methods see documentation down
+//bcoins returns several other methods, see documentation below
 bcoins
   .getDynamicPriceExpiry({ status: "open" })
   .then((res) => console.log(res));
@@ -40,7 +40,7 @@ bcoins
 
 ## In React with @apollo/client
 
-###In your root component
+### In your root component
 ```js
 import React from 'react';
 import { render } from 'react-dom';
@@ -56,7 +56,7 @@ function App() {
   return (
     <ApolloProvider client={bcoins.client}>
       <div>
-        <h2>My first Apollo app 🚀</h2>
+        <h2>My first BuyCoins Apollo app 🚀</h2>
       </div>
     </ApolloProvider>
   );
@@ -115,11 +115,11 @@ function AddTodo() {
 ### 
 ```
 
-Also Integates seamlesslly with Vue and Apollo Client
+Also Integates seamlessly with Vue and Apollo Client
 
 # Documentation
 
-You can check out the official BuyCoins Documentation on their [website](https://developers.buycoins.africa/) for more detailed explanations of how each query/mutuation works. This library implements all the possible queries and mutuations in the BuyCoins docs except for webhook section.
+You can check out the official BuyCoins Documentation on their [website](https://developers.buycoins.africa/) for more detailed explanations of how each query/mutuation works. This library implements all the possible queries and mutuations in the BuyCoins docs except the webhook section.
 
 In order to support both usage in vanilla js and easy integration with Apollo client and other Js frameworks, the library export a setupBCoins function, which is used for the initial authorization setup and in addition exports all the methods which calls the different graphql queries and mutuations api calls
 
@@ -133,9 +133,24 @@ const bcoins = setupBCoins({
 }, fetch);
 
 //bcoins returns several other methods
-bcoins
-  .getDynamicPriceExpiry({ status: "open" })
-  .then((res) => console.log(res));
+// bcoins = {
+//   client,
+//   createVirtualDepositAccount: (request) => mutationWrapper(client, CREATE_VIRTUAL_DEPOSIT_ACCOUNT, request) ,
+//   getBuyCoinsPrices: (request) => queryWrapper(client, CURRENT_BUYCOINS_PRICE, request),
+//   getDynamicPriceExpiry: (request) => queryWrapper(client, DYNAMIC_PRICE_EXPIRY, request),
+//   placeLimitingOrder: (request) => mutationWrapper(client, PLACING_LIMIT_ORDER, request),
+//   placeMarketOrder: (request) => mutationWrapper(client, PLACING_MARKET_ORDER, request),
+//   getOrders: (request) => queryWrapper(client, GET_ORDERS, request),
+//   getMarketBook: (request) => queryWrapper(client, GET_MARKET_BOOK, request),
+//   getSingleCryptoPrice: (request) => queryWrapper(client, GET_SINGLE_CRYPTO_PRICE,request),
+//   getPrices: (request) => queryWrapper(client, GET_PRICES,request),
+//   buyCrypto: (request) => mutationWrapper(client, BUY_CRYPTO, request),
+//   sellCrypto: (request) => mutationWrapper(client, SELL_CRYPTO, request),
+//   getEstimatedNetworkFee: (request) => queryWrapper(client, GET_ESTIMATED_NETWORK_FEE, request),
+//   sendCrypto:  (request) => mutationWrapper(client, SEND_CRYPTO, request),
+//   getBalances:  (request) => queryWrapper(client, GET_BALANCES, request),
+//   createAddress:  (request) => mutationWrapper(client, CREATE_ADDRESS, request),
+// };
 ```
 
 the client object returned from creating an Apolloclient instance (whcich contains our uri and authorization header is also returned from the setup client function and can be accessed thus:
@@ -143,6 +158,8 @@ the client object returned from creating an Apolloclient instance (whcich contai
 ```js
 bcoins.client
 ```
+
+## Calling The API 
 
 ```js
 //pass in objects with the field specied in each call as keys and with the appropriate values (please refer to the official docs)
@@ -196,9 +213,17 @@ import {
 }  from 'bcoins';
 ```
 
-for the queries call them with the needed arguments and pass result to the useQuery hooks from Apollo client as shown in the React - Apollo section, while for the mutuations just call them without any arguments and pass the result into the useMutation hook, then the resulting function (the first argument returned from the useMutation hook) will now be usedto pass in a variables object. (also refer to the React - Apollo section to see an example.
+for the queries call them with the needed arguments and pass result to the useQuery hooks from Apollo client as shown in the React - Apollo section above, while for the mutuations just call them without any arguments and pass the result into the useMutation hook, then the resulting function (the first argument returned from the useMutation hook) will now be used to pass in a variables object. (also refer to the React - Apollo section to see an example.
 
+# Contributing
 
+Bugs? Comments? Features? PRs and Issues happily welcomed! 
+
+# Moving Forward
+
+- migration to typescript  
+
+- implementation of tests
 
 
 
