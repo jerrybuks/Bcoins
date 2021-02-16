@@ -1,5 +1,5 @@
 //this file contains the graphql query structure for the different data needed to be fetched, but does not make the api call
-import { gql } from '@apollo/client';
+const { gql } = require("apollo-boost");
 
 //crate virtual deposit account
 const CREATE_VIRTUAL_DEPOSIT_ACCOUNT = () => gql`

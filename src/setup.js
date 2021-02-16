@@ -1,4 +1,7 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+const { createHttpLink } = require('apollo-link-http')
+const { InMemoryCache } = require('apollo-cache-inmemory') 
+const {ApolloClient} = require('apollo-client')
+const nodeFetch = require('node-fetch');
 
 const {
   CREATE_VIRTUAL_DEPOSIT_ACCOUNT,
@@ -18,18 +21,21 @@ const {
   CREATE_ADDRESS,
 } = require("./queries");
 
-const setupBCoins = ({ publicKey, secretKey }) => {
+const setupBCoins = ({ publicKey, secretKey }, fetch = nodeFetch) => {
   if (!(publicKey && secretKey))
     return "please provide your public and secret key";
   const authValue =
     "Basic " + Buffer.from(publicKey + ":" + secretKey).toString("base64");
 
   const client = new ApolloClient({
+    link: createHttpLink({
       uri:  "https://backend.buycoins.tech/api/graphql",
+      fetch:  fetch,
       headers: {
         authorization: authValue,
       },
-      cache: new InMemoryCache(),
+    }),
+    cache: new InMemoryCache(),
   });
   
   const bcoins = {

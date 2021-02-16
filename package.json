@@ -1,6 +1,6 @@
 {
   "name": "bcoins",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "description": "client side library for buy-coins graphql api",
   "main": "src/index.js",
   "scripts": {
@@ -26,7 +26,8 @@
   },
   "homepage": "https://github.com/jerrybuks/Bcoins#readme",
   "dependencies": {
-    "@apollo/client": "^3.3.11",
-    "graphql": "^15.5.0"
+    "apollo-boost": "^0.4.9",
+    "graphql": "^15.5.0",
+    "node-fetch": "^2.6.1"
   }
 }
