@@ -1,5 +1,4 @@
-const { InMemoryCache } = require('apollo-cache-inmemory') 
-const {ApolloClient} = require('apollo-client')
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 const {
   CREATE_VIRTUAL_DEPOSIT_ACCOUNT,
